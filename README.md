@@ -5,6 +5,8 @@ ESP32 drone project with F450 frame in HCM City
 ## Video test drone
 [![Watch the video](https://img.youtube.com/vi/pp7vdn5QxUU/0.jpg)](https://youtube.com/shorts/pp7vdn5QxUU?si=EoC83cz4GQpj6je0)
 
+[![Watch the second video](https://img.youtube.com/vi/e0xyz8K_Xz0/0.jpg)](https://youtube.com/shorts/e0xyz8K_Xz0?si=DAhz2X3Vl13OeQYI)
+
 ---
 
 ## Giới thiệu
