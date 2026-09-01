@@ -16,7 +16,7 @@ ESP32 drone project with F450 frame in HCM City
 ---
 
 ## Giới thiệu
-Tôi là sinh viên trường CKC và đây là mã nguồn Drone trong dự án môn học của tôi. Tôi đã mất hơn 2 tháng cho phần lập trình Drone này, bắt đầu từ những thứ cơ bản nhất cho đến việc cân bằng máy bay tốt nhất với khả năng của mình.
+Tôi là sinh viên trường CKC HCM City và đây là mã nguồn Drone trong dự án môn học của tôi. Tôi đã mất hơn 2 tháng cho phần lập trình Drone này, bắt đầu từ những thứ cơ bản nhất cho đến việc cân bằng máy bay tốt nhất với khả năng của mình.
 
 ## Chi Tiết Kỹ Thuật & Kiến Trúc Thuật Toán
 
