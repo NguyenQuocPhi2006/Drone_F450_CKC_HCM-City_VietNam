@@ -48,11 +48,13 @@ Tất cả giao tiếp qua **I2C, UART, SPI** đều chạy với DMA.
 
 ## Hình ảnh minh họa
 
-<p align="center">
   <img width="300" alt="Drone" src="https://github.com/user-attachments/assets/d9528ef6-04e1-4c48-8c56-7e9497522348" />
+## Thiết kế PCB
+
   <img width="300" alt="PCB" src="https://github.com/user-attachments/assets/60229d58-c28d-4c60-84ab-a91336c02467" />
+## Màng hình hiển thị thông số trên tay cầm FS_iB6A
+
   <img width="300" alt="Display" src="https://github.com/user-attachments/assets/6484176b-4d98-43fc-a8e5-21764e5d9472" />
-</p>
 
 ---
 
