@@ -25,12 +25,12 @@ Mã nguồn sử dụng module **GY-87** (gồm **MPU6050** và **QMC5883L/P**, 
 Toàn bộ chu trình xử lý điều khiển và ước lượng trạng thái được phân tầng rõ ràng qua hai vòng lặp lồng nhau (Cascaded Loops):
 
 ### 1. Vòng lặp bên ngoài (Outer Loop - 100 Hz): Xử lý vị trí, độ cao và góc mong muốn
-* **Định vị GPS & Thuật toán eSKF:** Khi có tín hiệu GPS, vòng lặp ngoài áp dụng bộ lọc **eSKF (Error-State Kalman Filter)**. Thuật toán sử dụng dữ liệu kinh độ (Longitude) và vĩ độ (Latitude) kết hợp trực tiếp với 4 thành phần Quaternion $(q_0, q_1, q_2, q_3)$ được tính toán từ vòng lặp trong để ước lượng tọa độ vị trí không gian $(X, Y)$ của máy bay.
+* **Định vị GPS & Thuật toán eSKF:** Khi có tín hiệu GPS, vòng lặp ngoài áp dụng bộ lọc **eSKF (Error-State Kalman Filter)**. Thuật toán sử dụng dữ liệu kinh độ (Longitude) và vĩ độ (Latitude) kết hợp trực tiếp với 4 thành phần Quaternion (q_0, q_1, q_2, q_3) được tính toán từ vòng lặp trong để ước lượng tọa độ vị trí không gian $(X, Y)$ của máy bay.
 * **Cảm biến áp suất khí quyển:** Khi kết nối thêm cảm biến áp suất, dữ liệu độ cao đo được sẽ kết hợp (sensor fusion) cùng dữ liệu tốc độ góc (Gyro) và gia tốc trục Z (Accel Z) từ MPU6050 nhằm ước lượng độ cao chuẩn xác.
 * **Xử lý góc mong muốn & PID Ngoài (100 Hz):** Dựa vào lệnh điều khiển từ tay cầm hoặc dữ liệu dẫn đường GPS, vòng lặp ngoài tính toán sai lệch và đưa qua bộ điều khiển **PID Ngoài** để cập nhật liên tục các giá trị mục tiêu: `target_roll`, `target_pitch` và `target_altitude`.
 
 ### 2. Vòng lặp bên trong (Inner Loop - 1 kHz): Ước lượng tư thế & Điều khiển cân bằng
-* **Thu thập & Tiền xử lý cảm biến:** Đọc toàn bộ dữ liệu thô (Raw Data) từ MPU6050 và QMC5883L/P, đưa qua khâu bù trừ sai số (Calibration/Offset) rồi nạp vào **bộ lọc Mahony** ở tần số **1 kHz** để tính toán ma trận Quaternion $(q_0, q_1, q_2, q_3)$ và góc Euler thực tế.
+* **Thu thập & Tiền xử lý cảm biến:** Đọc toàn bộ dữ liệu thô (Raw Data) từ MPU6050 và QMC5883L/P, đưa qua khâu bù trừ sai số (Calibration/Offset) rồi nạp vào **bộ lọc Mahony** ở tần số **1 kHz** để tính toán ma trận Quaternion (q_0, q_1, q_2, q_3) và góc Euler thực tế.
 * **PID Trong (Rate Controller - 1 kHz):** Các giá trị đầu ra từ vòng lặp ngoài (`target_roll`, `target_pitch`, `target_altitude`) được truyền vào vòng lặp PID trong. Sự phối hợp giữa **PID Trong (1 kHz)** và **PID Ngoài (100 Hz)** đảm bảo phản hồi tức thì với các biến động góc quay và triệt tiêu rung lắc.
 * **Đầu ra điều khiển:** Kết quả sau cùng của vòng lặp là giá trị **Duty Cycle** cập nhật trực tiếp cho 4 kênh PWM Timer điều khiển 4 ESC / Động cơ.
 
@@ -56,15 +56,15 @@ Toàn bộ chu trình xử lý điều khiển và ước lượng trạng thái
 * **Kiểm tra độc lập trên STM32CubeIDE (v1.9.0):** Để đảm bảo độ an toàn và chuẩn xác tuyệt đối, tôi tạo một project riêng để test và theo dõi giá trị xung Min/Max của cả 4 ESC qua tính năng **Live Expressions / Debug** trong STM32CubeIDE. Việc này giúp xác nhận 4 ESC hoàn toàn đồng pha và nhận đúng dải xung trước khi đưa vào code điều khiển chính.
 
 ### 2. Hiện tượng Drone bị trôi hoặc rung lắc (Oscillation & Drift)
-Nếu máy bay gặp tình trạng rung lắc hoặc không giữ được vị trí, nguyên nhân **không chỉ nằm ở các hệ số $K_p, K_i, K_d$ của PID**, mà còn phụ thuộc rất lớn vào các yếu tố nền tảng sau:
+Nếu máy bay gặp tình trạng rung lắc hoặc không giữ được vị trí, nguyên nhân **không chỉ nằm ở các hệ số K_p, K_i, K_d của PID**, mà còn phụ thuộc rất lớn vào các yếu tố nền tảng sau:
 * **Cấu hình phần cứng cảm biến:** Chế độ lọc số nội bộ (**Filter Mode / DLPF**), việc lựa chọn **dãy đo của Accelerometer** và **dãy đo của Gyroscope** có phù hợp với độ rung của khung máy bay hay không.
-* **Thông số $K_p, K_i$ của bộ lọc Mahony:** Bộ lọc Mahony đóng vai trò tối quan trọng quyết định độ mượt và độ chính xác của góc ước lượng. Tinh chỉnh trọng số $K_p, K_i$ của Mahony chuẩn xác sẽ quyết định phần lớn độ ổn định của máy bay trước khi bàn đến PID.
+* **Thông số K_p, K_i của bộ lọc Mahony:** Bộ lọc Mahony đóng vai trò tối quan trọng quyết định độ mượt và độ chính xác của góc ước lượng. Tinh chỉnh trọng số K_p, K_i của Mahony chuẩn xác sẽ quyết định phần lớn độ ổn định của máy bay trước khi bàn đến PID.
 
 ### 3. Hiệu chuẩn 6 trục cảm biến MPU6050
 * **Hiệu chuẩn 3 trục Gyroscope:** Đặt máy bay lên một mặt phẳng lý tưởng nhất có thể. Tiến hành lấy mẫu hiệu chỉnh ở **cả 4 hướng xoay khác nhau**, sau đó tính giá trị trung bình để triệt tiêu hoàn toàn độ trôi (offset/drift).
 * **Hiệu chuẩn 3 trục Accelerometer trên 6 mặt không gian:** Bắt buộc phải hiệu chỉnh đầy đủ cả 6 hướng tương ứng với trọng lực Trái Đất:
-  * Ví dụ ở dãy đo $\pm 2g$, các giá trị mục tiêu sẽ là: $X = -1, X = +1, Y = -1, Y = +1, Z = -1, Z = +1$.
-  * **Lưu ý thao tác:** Phải đặt máy bay vuông góc nhất có thể với mặt phẳng ngang để thu được các giá trị xấp xỉ lý tưởng thực tế. Không cần ép buộc số đo phải bằng tuyệt đối $\pm 1.000$, việc lấy được giá trị xấp xỉ thực tế ổn định mới là yếu tố quyết định.
+  * Ví dụ ở dãy đo \pm 2g, các giá trị mục tiêu sẽ là: X = -1, X = +1, Y = -1, Y = +1, Z = -1, Z = +1.
+  * **Lưu ý thao tác:** Phải đặt máy bay vuông góc nhất có thể với mặt phẳng ngang để thu được các giá trị xấp xỉ lý tưởng thực tế. Không cần ép buộc số đo phải bằng tuyệt đối \pm 1.000, việc lấy được giá trị xấp xỉ thực tế ổn định mới là yếu tố quyết định.
 
 ### 4. Hiệu chuẩn 3 trục cảm biến La bàn (QMC5883L)
 * **Từ trường cục bộ:** Mỗi khu vực địa lý, vị trí địa lý đều có độ lệch từ trường và mức can nhiễu khác nhau, nên việc hiệu chuẩn lại la bàn là bắt buộc khi thay đổi môi trường bay.
