@@ -13,40 +13,36 @@ ESP32 drone project with F450 frame in HCM City
   </a>
 </p>
 
-
 ---
 
 ## Giới thiệu
-Tôi là người Việt Nam và đây là mã nguồn Drone trong dự án môn học của tôi. Tôi đã mất hơn 2 tháng cho phần lập trình Drone này, bắt đầu từ những bước cơ bản nhất cho đến việc cân bằng máy bay tốt nhất với khả năng của mình.
+Tôi là người Việt Nam và đây là mã nguồn Drone trong dự án môn học của tôi. Tôi đã mất hơn 2 tháng cho phần lập trình Drone này, bắt đầu từ những thứ cơ bản nhất cho đến việc cân bằng máy bay tốt nhất với khả năng của mình.
 
-## Phần cứng sử dụng
+## Chi tiết kỹ thuật
+Mã nguồn này dùng **GY87** (MPU6050 và QMC5883P, không sử dụng BMP180) và kết hợp với **bộ lọc Mahony** chạy ở tần số 1Khz.  
+Quy trình bao gồm:
+- Đọc dữ liệu thô, hiệu chỉnh, đưa vào bộ lọc Mahony.  
+- Xử lý góc nghiêng mong muốn (tay cầm hoặc GPS).  
+- Nếu có GPS: sử dụng vòng lặp ngoài eSKF để tính vị trí X, Y trong không trung (dựa vào quaternion q0, q1, q2, q3).  
+- Nếu có cảm biến áp suất: kết hợp dữ liệu áp suất với gyro + accel trục Z.  
+- Qua PID để điều chỉnh **target_roll**, **target_pitch**, **target_altitude**.  
+- Đầu ra cuối cùng là **Duty Cycle** của 4 kênh PWM.  
+
+Tất cả giao tiếp qua **I2C, UART, SPI** đều chạy với DMA.  
+Đọc dữ liệu từ RX của tay cầm FS-iAB6 bằng DMA + ngắt để lấy 32 byte dữ liệu.  
+
 - **Vi điều khiển**: STM32F411CEU6  
-- **Cảm biến**: GY87 (MPU6050 + QMC5883L, không dùng BMP180)  
-- **ESC**: 40A Brushless  
-- **Động cơ**: 930KV 2212 phổ thông  
+- **Động lực**: ESC40A Brushless + động cơ 930KV 2212  
 - **Cánh quạt**: 9 inch (ổn định hơn 10 inch do momen quán tính nhỏ hơn)
 
-## Thuật toán & xử lý tín hiệu
-- **Bộ lọc**: Mahony filter chạy ở tần số 1kHz  
-- **PID**: Kết hợp PID trong (1kHz) và PID ngoài (100Hz)  
-- **Quy trình**:
-  - Đọc dữ liệu thô từ cảm biến → hiệu chỉnh → đưa vào bộ lọc Mahony  
-  - Xử lý góc nghiêng mong muốn (tay cầm hoặc GPS)  
-  - Nếu có GPS: dùng vòng lặp ngoài eSKF để tính vị trí X, Y trong không trung  
-  - Nếu có cảm biến áp suất: kết hợp dữ liệu áp suất với gyro + accel trục Z  
-  - Đưa kết quả qua PID để điều chỉnh **target_roll**, **target_pitch**, **target_altitude**  
-  - Đầu ra cuối cùng là **Duty Cycle** cho 4 kênh PWM
-
-## Giao tiếp & điều khiển
-- **I2C, UART, SPI**: tất cả đều chạy với DMA  
-- **Tay cầm FS-iAB6**: đọc dữ liệu qua DMA + ngắt, lấy 32 byte dữ liệu
+---
 
 ## Kinh nghiệm & lưu ý
-- **Hiệu chỉnh ESC**: tôi không làm bằng code, mà hiệu chỉnh qua tay cầm và debug bằng STM32CubeIDE (v1.9.0)  
-- **Tinh chỉnh PID**: không chỉ phụ thuộc vào KP/KI/KD, mà còn vào cấu hình cảm biến (filter mode, dãy đo accel/gyro) và thông số bộ lọc Mahony  
+- **Hiệu chỉnh ESC**: không làm bằng code, mà hiệu chỉnh qua tay cầm và debug bằng STM32CubeIDE v1.9.0.  
+- **Tinh chỉnh PID**: không chỉ phụ thuộc vào KP/KI/KD, mà còn vào cấu hình cảm biến (filter mode, dãy đo accel/gyro) và thông số bộ lọc Mahony.  
 - **Hiệu chỉnh cảm biến**:
-  - **MPU6050**: hiệu chỉnh 3 trục gyro trên mặt phẳng lý tưởng, và 6 mặt của accel (±X, ±Y, ±Z)  
-  - **QMC5883L (la bàn)**: mỗi vùng có từ trường khác nhau, cần hiệu chỉnh lại giống như la bàn trên điện thoại mới
+  - **MPU6050**: hiệu chỉnh 3 trục gyro trên mặt phẳng lý tưởng, và 6 mặt của accel (±X, ±Y, ±Z).  
+  - **QMC5883L (la bàn)**: mỗi vùng có từ trường khác nhau, cần hiệu chỉnh lại giống như la bàn trên điện thoại mới.
 
 ---
 
