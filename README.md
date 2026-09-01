@@ -43,9 +43,6 @@ Tôi là người Việt Nam và đây là mã nguồn Drone trong dự án môn
 
 ---
 
-## Kết luận
-Dự án này là kết quả của quá trình học tập và thử nghiệm nghiêm túc. Tôi hy vọng mã nguồn và kinh nghiệm chia sẻ sẽ giúp ích cho những ai quan tâm đến việc tự chế tạo drone với vi điều khiển STM32.
-
 ## Hình ảnh minh họa
 
 <p align="center">
@@ -54,6 +51,7 @@ Dự án này là kết quả của quá trình học tập và thử nghiệm n
   <img width="300" alt="Display" src="https://github.com/user-attachments/assets/6484176b-4d98-43fc-a8e5-21764e5d9472" />
 </p>
 
+---
 
-
-
+## Kết luận
+Dự án này là kết quả của quá trình học tập và thử nghiệm nghiêm túc. Tôi hy vọng mã nguồn và kinh nghiệm chia sẻ sẽ giúp ích cho những ai quan tâm đến việc tự chế tạo drone với vi điều khiển STM32.
