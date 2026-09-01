@@ -2,7 +2,7 @@
 
 ESP32 drone project with F450 frame in HCM City
 
-## Demo Video
+## Video test drone
 [![Watch the video](https://img.youtube.com/vi/pp7vdn5QxUU/0.jpg)](https://youtube.com/shorts/pp7vdn5QxUU?si=EoC83cz4GQpj6je0)
 
 ---
@@ -43,3 +43,12 @@ Tôi là người Việt Nam và đây là mã nguồn Drone trong dự án môn
 
 ## Kết luận
 Dự án này là kết quả của quá trình học tập và thử nghiệm nghiêm túc. Tôi hy vọng mã nguồn và kinh nghiệm chia sẻ sẽ giúp ích cho những ai quan tâm đến việc tự chế tạo drone với vi điều khiển STM32.
+
+<img width="2580" height="2465" alt="Drone" src="https://github.com/user-attachments/assets/d9528ef6-04e1-4c48-8c56-7e9497522348" />
+
+<img width="1147" height="825" alt="PCB" src="https://github.com/user-attachments/assets/60229d58-c28d-4c60-84ab-a91336c02467" />
+
+<img width="1039" height="789" alt="display" src="https://github.com/user-attachments/assets/6484176b-4d98-43fc-a8e5-21764e5d9472" />
+
+
+
