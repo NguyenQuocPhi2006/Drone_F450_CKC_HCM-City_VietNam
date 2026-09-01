@@ -81,6 +81,7 @@ Nếu máy bay gặp tình trạng rung lắc hoặc không giữ được vị 
   <img width="300" alt="PCB" src="https://github.com/user-attachments/assets/60229d58-c28d-4c60-84ab-a91336c02467" />
   
 ## Màng hình hiển thị thông số trên tay cầm FS_iB6A
+chỗ này mình sẽ đăng 1 bài repo riêng về module Esp32_2432S028
 
   <img width="300" alt="Display" src="https://github.com/user-attachments/assets/6484176b-4d98-43fc-a8e5-21764e5d9472" />
 
